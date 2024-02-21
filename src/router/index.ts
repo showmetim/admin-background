@@ -1,13 +1,13 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import {getRouters} from '@/utils/MenuFetch'
-const _import = (path:string) => () => import(`@/views/${path}.vue`)
+const modules = import.meta.glob('../views/**/**/*.vue')
 
 const routes = [
   {
     path: "/",
     name: "Home",
     redirect: "/homepage",
-    component: _import('Home'),
+    component: modules[`../views/Home.vue`],
   },
 ];
 
@@ -16,10 +16,10 @@ const router = createRouter({
   routes,
 });
 
-function addPath(routers:any) {
+async function addPath(routers:any) {
   routers.forEach((item: any) => {
     if(item.component !== 'Layout') {
-      router.addRoute('Home', { path: item.path, component: _import(item.component) })
+      router.addRoute('Home', { path: item.path, component:modules[`../views/${item.component}.vue`]})
     }
     if(item.children?.length) {
       addPath(item.children)
@@ -30,7 +30,7 @@ function addPath(routers:any) {
 const setupRouterHooks = async()  => {
 	// 首先调用接口获取菜单列表并处理成需要的路由数组
 	const routerData = await getRouters()
-  addPath(routerData)
+  await addPath(routerData)
 	router.beforeEach(async(_to, _from, next) => {
     next()
 	})
