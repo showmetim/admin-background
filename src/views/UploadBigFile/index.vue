@@ -6,7 +6,7 @@
   >
     <el-button type="primary">上传文件</el-button>
   </el-upload>
-  <!-- <input type="file" @change="handleUpload"> -->
+  <el-progress v-if="progressFlag" :percentage="loadProgress"></el-progress>
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +16,8 @@ import https from '@/utils/request';
 import type { UploadFile} from 'element-plus'
 const fileName = ref('')
 const fileHash = ref('')
+const progressFlag = ref(false)
+const loadProgress = ref(0)
 const handleUpload = async (uploadFile: UploadFile) => {
   // 读取文件
   const file = uploadFile.raw
@@ -100,6 +102,13 @@ const uploadChunks = async (chunks: Blob[]) => {
       await Promise.race(taskPool)
     }
     index++
+    progressFlag.value = true
+    loadProgress.value = parseInt((index / formDatas.length) * 100 + '')
+    setTimeout(() => {
+      if(loadProgress.value >= 100) {
+        progressFlag.value = false
+      }
+    }, 1000);
   }
   await Promise.all(taskPool)
 }
