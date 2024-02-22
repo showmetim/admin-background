@@ -30,7 +30,7 @@ import {reactive,ref,watch} from 'vue'
 const useStore = useCounterStore()
 // 获取路由信息
 let routers:any = reactive([])
-useStore.userRouter.forEach(item => {
+useStore.userRouter.forEach((item: any) => {
   routers.push(item)
 })
 const router = useRouter()

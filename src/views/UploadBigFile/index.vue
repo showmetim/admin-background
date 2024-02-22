@@ -28,9 +28,13 @@ const handleUpload = async (uploadFile: UploadFile) => {
   // 获取文件分片的hash值
   const hash = await calculateHash(chunks)
   fileHash.value = hash as string
-  // 上传分片
-  uploadChunks(chunks)
-  
+  // 查询文件是否已上传，没有再上传分片
+  const data = await verify()
+  if (data.data?.shouldUpload) {
+    uploadChunks(chunks,data.data?.existChunks)
+  } else {
+    alert('文件已存在，秒传！！！')
+  }
 }
 // 分片的每部分大小
 const CHUNK_SIZE = 1024 * 1024 * 1; // 1MB
@@ -71,7 +75,7 @@ const calculateHash = (fileChunks: Blob[]) => {
   })
 }
 // 文件分片上传
-const uploadChunks = async (chunks: Blob[]) => {
+const uploadChunks = async (chunks: Blob[],existChunks:string[]) => {
   const data = chunks.map((chunk, index) => {
     return {
       fileHash: fileHash.value,
@@ -80,7 +84,9 @@ const uploadChunks = async (chunks: Blob[]) => {
     }
   })
   // 通过formData上传分片
-  const formDatas = data.map(item => {
+  const formDatas = data.
+    filter(item => !existChunks.includes(item.chunkHash)).
+    map(item => {
     const formData = new FormData()
     formData.append('fileHash', item.fileHash)
     formData.append('chunkHash', item.chunkHash)
@@ -111,5 +117,25 @@ const uploadChunks = async (chunks: Blob[]) => {
     }, 1000);
   }
   await Promise.all(taskPool)
+  // 通知服务器合并分片
+  mergeRequest()
+}
+// 文件分片合并
+const mergeRequest = () => {
+  https.post('http://localhost:3000/merge',{
+    fileHash: fileHash.value,
+    fileName: fileName.value,
+    size: CHUNK_SIZE
+  }).then((res) => {
+      alert(res.data.msg)
+    })
+}
+// 判断文件是否已经上传
+const verify = async () => {
+  const res = await https.post('http://localhost:3000/verify', {
+    fileHash: fileHash.value,
+    fileName: fileName.value,
+    });
+  return res;
 }
 </script>
