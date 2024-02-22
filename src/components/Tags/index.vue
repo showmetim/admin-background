@@ -26,6 +26,7 @@ const closeTag = (path: string) =>{
 <style lang="less" scoped>
 .tagMain{
   width: 100%;
+  border-bottom: 1px solid #eee;
 }
   .el-tag{
     margin: 5px;
