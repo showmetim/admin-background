@@ -1,26 +1,31 @@
 <template>
   <h1>大文件上传</h1>
-  <input type="file" @change="handleUpload">
+  <el-upload
+    :auto-upload="false"
+    :on-change="handleUpload"
+  >
+    <el-button type="primary">上传文件</el-button>
+  </el-upload>
+  <!-- <input type="file" @change="handleUpload"> -->
 </template>
 
 <script lang="ts" setup>
 import SparkMD5 from 'spark-md5';
 import { ref } from 'vue';
 import https from '@/utils/request';
-
+import type { UploadFile} from 'element-plus'
 const fileName = ref('')
 const fileHash = ref('')
-const handleUpload = async (event: Event) => {
+const handleUpload = async (uploadFile: UploadFile) => {
   // 读取文件
-  const file = (event.target as HTMLInputElement).files?.[0];
-  fileName.value = file?.name as string
+  const file = uploadFile.raw
+  fileName.value = uploadFile.name
   if (!file) return;
   // 文件分片
   const chunks = createChunks(file)
   // 获取文件分片的hash值
   const hash = await calculateHash(chunks)
   fileHash.value = hash as string
-
   // 上传分片
   uploadChunks(chunks)
   

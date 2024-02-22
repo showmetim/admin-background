@@ -23,17 +23,14 @@
 </template>
 
 <script lang="ts" setup>
-import {getRouters} from '@/utils/MenuFetch.ts'
+import { useCounterStore } from '@/store';
 import {reactive} from 'vue'
+const useStore = useCounterStore()
+// 获取路由信息
 let routers:any = reactive([])
-const loadData = async ()=>{
-  const data = await getRouters() as []
-  data.forEach((item:any)=>{
-    routers.push(item)
-  })
-}
-loadData()
-
+useStore.userRouter.forEach(item => {
+  routers.push(item)
+})
 </script>
 
 <style lang="less" scoped>
