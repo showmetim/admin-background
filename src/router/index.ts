@@ -13,6 +13,11 @@ const routes = [
     children:[],
     component: modules[`../views/Home.vue`],
   },
+  {
+    path:'/login',
+    name:'Login',
+    component: modules[`../views/Login/index.vue`],
+  }
 ];
 
 const router = createRouter({

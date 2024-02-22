@@ -8,6 +8,7 @@
         <Aside></Aside>
       </aside>
       <main>
+        <Tags></Tags>
         <router-view></router-view>
       </main>
     </div>
@@ -16,7 +17,7 @@
 <script lang="ts" setup>
 import Header from '@/components/Header/index.vue'
 import Aside from '@/components/Aside/index.vue'
-
+import Tags from '@/components/Tags/index.vue'
 </script>
 
 <style lang="less" scoped>
@@ -28,6 +29,9 @@ import Aside from '@/components/Aside/index.vue'
     height: calc(100vh - 60px);
     aside {
       width: 200px;
+    }
+    main{
+      flex: 1;
     }
   }
 </style>
