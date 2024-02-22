@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import https from '@/utils/request.ts'
 
 export const useCounterStore = defineStore('main', {
   state: () => {
