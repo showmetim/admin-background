@@ -34,6 +34,11 @@ import Tags from '@/components/Tags/index.vue'
     }
     main{
       width: calc(100vw - 200px);
+      display: flex;
+      flex-direction: column;
+      .routerBox {
+        flex: 1;
+      }
     }
   }
 </style>
