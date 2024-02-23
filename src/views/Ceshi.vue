@@ -1,8 +1,3 @@
 <template>
-  <el-input v-model="inputTex"></el-input>
+  <h1>测试页面</h1>
 </template>
-
-<script lang="ts" setup name="Ceshi">
-import { ref } from 'vue'
-const inputTex = ref('')
-</script>

@@ -9,7 +9,9 @@
       </aside>
       <main>
         <Tags></Tags>
-        <router-view></router-view>
+        <div class="routerBox">
+          <router-view></router-view>
+        </div>
       </main>
     </div>
   </div>
@@ -31,7 +33,7 @@ import Tags from '@/components/Tags/index.vue'
       width: 200px;
     }
     main{
-      flex: 1;
+      width: calc(100vw - 200px);
     }
   }
 </style>

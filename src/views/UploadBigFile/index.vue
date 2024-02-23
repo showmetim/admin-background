@@ -110,11 +110,7 @@ const uploadChunks = async (chunks: Blob[],existChunks:string[]) => {
     index++
     progressFlag.value = true
     loadProgress.value = parseInt((index / formDatas.length) * 100 + '')
-    setTimeout(() => {
-      if(loadProgress.value >= 100) {
-        progressFlag.value = false
-      }
-    }, 1000);
+    
   }
   await Promise.all(taskPool)
   // 通知服务器合并分片

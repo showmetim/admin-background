@@ -26,13 +26,11 @@
 <script lang="ts" setup>
 import { useCounterStore } from '@/store';
 import { useRouter } from 'vue-router';
-import {reactive,ref,watch} from 'vue'
+import {ref,watch} from 'vue'
 const useStore = useCounterStore()
 // 获取路由信息
-let routers:any = reactive([])
-useStore.userRouter.forEach((item: any) => {
-  routers.push(item)
-})
+let routers:any = ref([])
+routers.value = useStore.userRouter
 const router = useRouter()
 const defaultActive = ref(router.currentRoute.value.path)
 
@@ -41,7 +39,7 @@ watch(() => router.currentRoute.value.path,(newValue) => {
 })
 
 const handleSelect = (path: string) => {
-  const pathName = matchPath(path,routers)
+  const pathName = matchPath(path,routers.value)
   const obj = {path,pathName}
 
   if(useStore.routerTags.find((item: { path: string; }) => item.path === path)) {
