@@ -9,5 +9,7 @@ import './global.css'
 
 const app = createApp(App);
 
-await setupRouter(app) 
-app.use(pinia).use(ElementPlus).mount('#app')
+(async () => {
+  await setupRouter(app) 
+  app.use(pinia).use(ElementPlus).mount('#app')
+})()
