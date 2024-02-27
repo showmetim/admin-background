@@ -61,10 +61,6 @@ onMounted(() => {
   scrollBox.value.addEventListener('scroll', handleScroll);
 });
 
-onUnmounted(() => {
-  scrollBox.value.removeEventListener('scroll', handleScroll);
-});
-
 </script>
 
 <style scoped>
