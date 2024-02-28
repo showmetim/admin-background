@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed,onMounted,onUnmounted } from 'vue'
+import { ref, computed,onMounted } from 'vue'
 const props = defineProps({
   listData: { type: Array, default: () => [] },
   itemHeight: { type: Number, default: 50 },
